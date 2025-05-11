@@ -22,6 +22,7 @@ const AccuracyEvaluation = ({ nodes, edges, data }: Props) => {
   } | null>(null);
 
   const handleEvaluate = () => {
+    console.log(data)
     setLoading(true);
     setError(null);
 
@@ -50,8 +51,7 @@ const AccuracyEvaluation = ({ nodes, edges, data }: Props) => {
     for (const patient of data) {
       try {
         const prediction = evaluateTree(nodes, edges, patient);
-        const actual = patient.outcome.toString();
-
+        const actual = patient.Outcome.toString();
         if (prediction === actual) {
           correct++;
           if (prediction === "1") tp++;
@@ -61,7 +61,7 @@ const AccuracyEvaluation = ({ nodes, edges, data }: Props) => {
           else fn++;
         }
       } catch {
-       
+       console.error(`Błąd podczas oceny pacjenta ${patient}`);
       }
     }
 
@@ -83,6 +83,7 @@ const AccuracyEvaluation = ({ nodes, edges, data }: Props) => {
         const val = String(node.data.results).toLowerCase();
         if (val === "1" || val === "true") return "1";
         if (val === "0" || val === "false") return "0";
+        console.log(`Nieprawidłowa wartość wyniku w węźle ${id}: ${val}`);
         throw new Error(`Nieprawidłowa wartość wyniku w węźle ${id}: ${val}`);
       }
 
@@ -93,14 +94,12 @@ const AccuracyEvaluation = ({ nodes, edges, data }: Props) => {
 
       const { column, operator, value } = condition;
       const patientValue = patient[column as keyof PatientData];
-
       const numericValue = Number(value);
       const patientNumber = Number(patientValue);
 
       if (isNaN(numericValue) || isNaN(patientNumber)) {
         throw new Error(`Nieprawidłowe dane numeryczne w węźle ${id} (${column})`);
       }
-
       let result: boolean;
       switch (operator) {
         case '>': result = patientNumber > numericValue; break;
@@ -111,13 +110,11 @@ const AccuracyEvaluation = ({ nodes, edges, data }: Props) => {
         default:
           throw new Error(`Nieznany operator "${operator}" w węźle ${id}`);
       }
-
       const branch = result ? 'true' : 'false';
       const edge = edges.find(e => e.source === id && e.sourceHandle === branch);
       if (!edge) {
         throw new Error(`Brak gałęzi ${branch} dla węzła ${id}`);
       }
-
       return evalNode(edge.target);
     };
 

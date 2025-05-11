@@ -42,14 +42,14 @@ function ConditionNode({ id, data }: NodeProps<TreeNodeData>) {
         onChange={e => data.onUpdateNode(id, { ...data, condition: { ...data.condition!, column: e.target.value } })}
       >
         <option value="">Wybierz kolumnę</option>
-        <option value="glucose">Glukoza</option>
-        <option value="bloodPressure">Ciśnienie krwi</option>
-        <option value="skinThickness">Grubość skóry</option>
-        <option value="insulin">Insulina</option>
-        <option value="bmi">BMI</option>
-        <option value="diabetesPedigree">Rodzinne występowanie cukrzycy</option>
-        <option value="age">Wiek</option>
-        <option value="outcome">Wynik</option>
+        <option value="Glucose">Glukoza</option>
+        <option value="BloodPressure">Ciśnienie krwi</option>
+        <option value="SkinThickness">Grubość skóry</option>
+        <option value="Insulin">Insulina</option>
+        <option value="BMI">BMI</option>
+        <option value="DiabetesPedigreeFunction">Rodzinne występowanie cukrzycy</option>
+        <option value="Age">Wiek</option>
+        <option value="Outcome">Wynik</option>
       </select>
       <div className="flex space-x-2 mb-2 text-black">
         <select

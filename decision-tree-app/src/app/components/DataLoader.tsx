@@ -1,11 +1,8 @@
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Papa from 'papaparse';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import _ from 'lodash';
-
-interface PatientData {
-  [key: string]: string | number | boolean | null | undefined;
-}
+import { PatientData } from '../types/types';
 
 interface DataStats {
   total: number;
@@ -39,7 +36,7 @@ interface ChartDataItem {
 }
 
 interface DataLoaderProps {
-  onDataLoaded?: (data: PatientData[]) => void;
+  onDataLoaded?: Dispatch<SetStateAction<PatientData[]>>;
 }
 
 const DataLoader: React.FC<DataLoaderProps> = ({ onDataLoaded }) => {
@@ -68,6 +65,7 @@ const DataLoader: React.FC<DataLoaderProps> = ({ onDataLoaded }) => {
     };
 
     loadDefaultData();
+
   }, [onDataLoaded]);
 
   const processData = (text: string): void => {
@@ -78,12 +76,9 @@ const DataLoader: React.FC<DataLoaderProps> = ({ onDataLoaded }) => {
         skipEmptyLines: true,
         complete: (results) => {
           const rawData = results.data as Record<string, unknown>[];
-          // For demonstration purposes, assume transformAndValidate function filters out invalid records
-          // In a real app, you'd have proper validation
-          const valid = rawData.filter(item => 
-            Object.values(item).every(val => val !== null && val !== undefined)
-          ) as PatientData[];
-
+          const valid = rawData.filter(item => Object.values(item).every(val => val !== null && val !== undefined)
+          ) as unknown as PatientData[];
+          console.log('Valid data:', valid);
           onDataLoaded && onDataLoaded(valid);
           setValidData(valid);
           setStats({

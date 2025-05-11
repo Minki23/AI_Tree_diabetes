@@ -7,9 +7,10 @@ import AccuracyEvaluation from './components/AccuracyEvaluation';
 import { PatientData, TreeNode } from './types/types';
 import { SparklesIcon, BeakerIcon, ChartBarIcon } from '@heroicons/react/24/outline';
 import { Edge } from 'reactflow';
+// Removed unused import
 
 export default function HomePage() {
-  const [medicalData] = useState<PatientData[]>([]);
+  const [medicalData, setMedicalData] = useState<PatientData[]>([]);
   const [treeNodes, setTreeNodes] = useState<TreeNode[]>([]);
   const [treeEdges, setTreeEdges] = useState<Edge[]>([]);
 
@@ -25,7 +26,7 @@ export default function HomePage() {
           <SparklesIcon className="h-8 w-8 text-blue-600" />
           <h2 className="text-2xl font-semibold text-gray-800">Krok 1: Analiza danych</h2>
         </div>
-        <DataLoader/>
+        <DataLoader onDataLoaded={setMedicalData}/>
       </section>
 
         <>  
@@ -46,5 +47,6 @@ export default function HomePage() {
           </section>
         </>
     </div>
+   
   );
 }
