@@ -3,7 +3,6 @@ import Papa from 'papaparse';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import _ from 'lodash';
 
-// Type definitions
 interface PatientData {
   [key: string]: string | number | boolean | null | undefined;
 }
@@ -99,8 +98,7 @@ const DataLoader: React.FC<DataLoaderProps> = ({ onDataLoaded }) => {
           setLoading(false);
           setError(null);
         },
-        error: (error: any) => {
-          console.error('Parsing error:', error);
+        error: () => {
           setError('Błąd przetwarzania pliku CSV.');
           setLoading(false);
         }
@@ -161,26 +159,6 @@ const DataLoader: React.FC<DataLoaderProps> = ({ onDataLoaded }) => {
       : sorted[mid].toFixed(2);
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const selectedFile = e.target.files?.[0];
-    if (selectedFile) {
-      setFile(selectedFile);
-      setLoading(true);
-      
-      const reader = new FileReader();
-      reader.onload = (event: ProgressEvent<FileReader>) => {
-        if (event.target?.result) {
-          processData(event.target.result as string);
-        }
-      };
-      reader.onerror = () => {
-        setError('Błąd odczytu pliku.');
-        setLoading(false);
-      };
-      reader.readAsText(selectedFile);
-    }
-  };
-
   // Prepare data for visualization
   const prepareChartData = (): ChartDataItem[] => {
     if (!summaryStats || Object.keys(summaryStats).length === 0) return [];
@@ -201,7 +179,7 @@ const DataLoader: React.FC<DataLoaderProps> = ({ onDataLoaded }) => {
   return (
     <div className="bg-gray-50 rounded-lg shadow p-4">
       <h2 className="text-xl font-semibold mb-4 text-black">Dane pacjentów</h2>
-      
+
       {loading ? (
         <div className="flex items-center space-x-2 text-gray-600">
           <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

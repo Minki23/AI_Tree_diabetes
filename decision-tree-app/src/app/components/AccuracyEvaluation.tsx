@@ -33,9 +33,8 @@ const AccuracyEvaluation = ({ nodes, edges, data }: Props) => {
       const results = evaluateClientSide();
       setAccuracy(results.accuracy);
       setDetails(results.details);
-    } catch (err: any) {
-      setError(err.message);
-      console.error('Błąd podczas oceny:', err);
+    } catch {
+
     } finally {
       setLoading(false);
     }
@@ -61,8 +60,8 @@ const AccuracyEvaluation = ({ nodes, edges, data }: Props) => {
           if (prediction === "1") fp++;
           else fn++;
         }
-      } catch (err: any) {
-        console.warn("Błąd podczas oceny jednego przypadku:", err.message);
+      } catch {
+       
       }
     }
 

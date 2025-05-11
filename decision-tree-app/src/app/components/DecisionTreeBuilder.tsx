@@ -213,7 +213,7 @@ const DecisionTreeBuilder = ({ onTreeChange }: Props) => {
     setTimeout(updateModel, 1000);
   }
 
-  const onConnect = useCallback((_: Connection) => {}, []);
+  const onConnect = useCallback(() => {}, []);
 
   const updateModel = useCallback(() => {
     const tree: TreeNode[] = nodes.map(n => ({

@@ -6,13 +6,14 @@ import DecisionTreeBuilder from './components/DecisionTreeBuilder';
 import AccuracyEvaluation from './components/AccuracyEvaluation';
 import { PatientData, TreeNode } from './types/types';
 import { SparklesIcon, BeakerIcon, ChartBarIcon } from '@heroicons/react/24/outline';
+import { Edge } from 'reactflow';
 
 export default function HomePage() {
-  const [medicalData, setMedicalData] = useState<PatientData[]>([]);
+  const [medicalData] = useState<PatientData[]>([]);
   const [treeNodes, setTreeNodes] = useState<TreeNode[]>([]);
-  const [treeEdges, setTreeEdges] = useState<any[]>([]);
+  const [treeEdges, setTreeEdges] = useState<Edge[]>([]);
 
-  const handleTreeChange = (nodes: TreeNode[], edges: any[]) => {
+  const handleTreeChange = (nodes: TreeNode[], edges: Edge[]) => {
     setTreeNodes(nodes);
     setTreeEdges(edges);
   };
