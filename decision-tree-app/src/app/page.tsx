@@ -28,7 +28,6 @@ export default function HomePage() {
         <DataLoader/>
       </section>
 
-      {medicalData.length > 0 && (
         <>  
           <section className="bg-white rounded-xl p-8 shadow-lg">
             <div className="flex items-center gap-3 mb-6">
@@ -46,7 +45,6 @@ export default function HomePage() {
             <AccuracyEvaluation nodes={treeNodes} edges={treeEdges} data={medicalData} />
           </section>
         </>
-      )}
     </div>
   );
 }
